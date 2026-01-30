@@ -43,7 +43,7 @@ sleep 2
 if [[ $( uname -m | awk '{print $1}' ) == "x86_64" ]]; then
     echo -e "${OK} Your Architecture Is Supported ( ${green}$( uname -m )${NC} )"
 else
-    echo -e "${EROR} Your Architecture Is Not Supported ( ${YELLOW}$( uname -m )${NC} )"
+    echo -e "${ERROR} Your Architecture Is Not Supported ( ${YELLOW}$( uname -m )${NC} )"
     exit 1
 fi
 
@@ -53,13 +53,13 @@ if [[ $( cat /etc/os-release | grep -w ID | head -n1 | sed 's/=//g' | sed 's/"//
 elif [[ $( cat /etc/os-release | grep -w ID | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/ID//g' ) == "debian" ]]; then
     echo -e "${OK} Your OS Is Supported ( ${green}$( cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g' )${NC} )"
 else
-    echo -e "${EROR} Your OS Is Not Supported ( ${YELLOW}$( cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g' )${NC} )"
+    echo -e "${ERROR} Your OS Is Not Supported ( ${YELLOW}$( cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g' )${NC} )"
     exit 1
 fi
 
 # // IP Address Validating
 if [[ $IP == "" ]]; then
-    echo -e "${EROR} IP Address ( ${YELLOW}Not Detected${NC} )"
+    echo -e "${ERROR} IP Address ( ${YELLOW}Not Detected${NC} )"
 else
     echo -e "${OK} IP Address ( ${green}$IP${NC} )"
 fi
@@ -487,7 +487,7 @@ chmod +x /etc/pam.d/common-password
 cd
 
 # Edit file /etc/systemd/system/rc-local.service
-cat > /etc/systemd/system/rc-local.service <<-END
+cat > /etc/systemd/system/rc-local.service <<EOF
 [Unit]
 Description=/etc/rc.local
 ConditionPathExists=/etc/rc.local
@@ -500,15 +500,15 @@ RemainAfterExit=yes
 SysVStartPriority=99
 [Install]
 WantedBy=multi-user.target
-END
+EOF
 
 # nano /etc/rc.local
-cat > /etc/rc.local <<-END
+cat > /etc/rc.local <<EOF
 #!/bin/sh -e
 # rc.local
 # By default this script does nothing.
 exit 0
-END
+EOF
 
 # Ubah izin akses
 chmod +x /etc/rc.local
@@ -685,7 +685,7 @@ gotop_latest="$(curl -s https://api.github.com/repos/xxxserxxx/gotop/releases | 
     chown root:root /swapfile
     chmod 0600 /swapfile >/dev/null 2>&1
     swapon /swapfile >/dev/null 2>&1
-    sed -i '$ i\/swapfile       swap swap   defaults    0 0' /etc/fstab
+    sed -i '$ i\/swapfile        swap swap   defaults    0 0' /etc/fstab
 
     # > Singkronisasi jam
     chronyd -q 'server 0.id.pool.ntp.org iburst'
@@ -696,7 +696,7 @@ gotop_latest="$(curl -s https://api.github.com/repos/xxxserxxx/gotop/releases | 
 print_success "Swap 1 G"
 }
 
-function ins_fail2ban(){   
+function ins_fail2ban(){    
     # Instal DDOS Flate
     if [ -d '/usr/local/ddos' ]; then
         echo; echo; echo "Please un-install the previous version first"
@@ -712,7 +712,8 @@ function ins_fail2ban(){
     # Ganti Banner
     wget -O /etc/kyt.txt https://raw.githubusercontent.com/hokagelegend/alpha-v3/refs/heads/main/files/issue.net
     print_success "Fail2ban"
-} # <--- PASTIKAN ADA KURUNG TUTUP INI
+} 
+
 function ins_epro(){
 clear
 print_install "Menginstall ePro WebSocket Proxy"
@@ -812,51 +813,51 @@ menu
 EOF
 mkdir -p /root/.info
 curl -sS "ipinfo.io/org?token=7a814b6263b02c" > /root/.info/.isp
-cat >/etc/cron.d/xp_all <<-END
+cat >/etc/cron.d/xp_all <<EOF
         SHELL=/bin/sh
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
         2 0 * * * root /usr/local/sbin/xp
-                2 0 * * * root /usr/local/sbin/menu
-    END
-    cat >/etc/cron.d/logclean <<-END
+        2 0 * * * root /usr/local/sbin/menu
+EOF
+    cat >/etc/cron.d/logclean <<EOF
         SHELL=/bin/sh
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
         */20 * * * * root /usr/local/sbin/clearlog
-        END
+EOF
     chmod 644 /root/.profile
     
-    cat >/etc/cron.d/daily_reboot <<-END
+    cat >/etc/cron.d/daily_reboot <<EOF
         SHELL=/bin/sh
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
         0 5 * * * root /sbin/reboot
-    END
-    cat >/etc/cron.d/ssh_accountant <<-END
+EOF
+    cat >/etc/cron.d/ssh_accountant <<EOF
         SHELL=/bin/sh
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
         * * * * * root /usr/local/sbin/ssh-accountant
-    END
-    cat >/etc/cron.d/limit_ip <<-END
+EOF
+    cat >/etc/cron.d/limit_ip <<EOF
         SHELL=/bin/sh
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
         */2 * * * * root /usr/local/sbin/limit-ip
-        END
-    cat >/etc/cron.d/lim-ip-ssh <<-END
+EOF
+    cat >/etc/cron.d/lim-ip-ssh <<EOF
         SHELL=/bin/sh
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
         */1 * * * * root /usr/local/sbin/limit-ip-ssh
-    END
-    cat >/etc/cron.d/limit_ip2 <<-END
+EOF
+    cat >/etc/cron.d/limit_ip2 <<EOF
         SHELL=/bin/sh
         PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
         */2 * * * * root /usr/bin/limit-ip
-    END
+EOF
     echo "*/1 * * * * root echo -n > /var/log/nginx/access.log" >/etc/cron.d/log.nginx
     echo "*/1 * * * * root echo -n > /var/log/xray/access.log" >>/etc/cron.d/log.xray
     service cron restart
     chmod 644 /etc/ssh/usage_db/
-    cat >/home/daily_reboot <<-END
+    cat >/home/daily_reboot <<EOF
         5
-    END
+EOF
 curl -sS "ipinfo.io/city?token=7a814b6263b02c" > /root/.info/.city
 cat >/etc/systemd/system/rc-local.service <<EOF
 [Unit]
@@ -1068,7 +1069,7 @@ EOF
         chmod +x /usr/local/sbin/limit-quota
     fi
 
-    service cron restart >/dev/null 2>&1
+    # service cron restart >/dev/null 2>&1
 
     # ==========================================
     #  7. FINALISASI & STARTING
@@ -1179,7 +1180,6 @@ clear
     downgrade_node
     # ========================================
     
-    restart_system
 }
 instal
 echo ""
@@ -1197,29 +1197,29 @@ echo ""
 echo "------------------------------------------------------------"
 echo ""
 echo "   >>> Service & Port"  | tee -a log-install.txt
-echo "   - OpenSSH                   : 22, 53, 2222, 2269"  | tee -a log-install.txt
-echo "   - SSH Websocket             : 80" | tee -a log-install.txt
-echo "   - SSH SSL Websocket         : 443" | tee -a log-install.txt
-echo "   - Stunnel5                  : 222, 777" | tee -a log-install.txt
-echo "   - Dropbear                  : 109, 143" | tee -a log-install.txt
-echo "   - Badvpn                    : 7100-7300" | tee -a log-install.txt
-echo "   - Nginx                     : 81" | tee -a log-install.txt
-echo "   - XRAY  Vmess TLS           : 443" | tee -a log-install.txt
-echo "   - XRAY  Vmess None TLS      : 80" | tee -a log-install.txt
-echo "   - XRAY  Vless TLS           : 443" | tee -a log-install.txt
-echo "   - XRAY  Vless None TLS      : 80" | tee -a log-install.txt
-echo "   - Trojan GRPC               : 443" | tee -a log-install.txt
-echo "   - Trojan WS                 : 443" | tee -a log-install.txt
-echo "   - Trojan GO                 : 443" | tee -a log-install.txt
-echo "   - Sodosok WS/GRPC           : 443" | tee -a log-install.txt
-echo "   - SLOWDNS                   : 53"  | tee -a log-install.txt
+echo "   - OpenSSH                    : 22, 53, 2222, 2269"  | tee -a log-install.txt
+echo "   - SSH Websocket              : 80" | tee -a log-install.txt
+echo "   - SSH SSL Websocket          : 443" | tee -a log-install.txt
+echo "   - Stunnel5                   : 222, 777" | tee -a log-install.txt
+echo "   - Dropbear                   : 109, 143" | tee -a log-install.txt
+echo "   - Badvpn                     : 7100-7300" | tee -a log-install.txt
+echo "   - Nginx                      : 81" | tee -a log-install.txt
+echo "   - XRAY  Vmess TLS            : 443" | tee -a log-install.txt
+echo "   - XRAY  Vmess None TLS       : 80" | tee -a log-install.txt
+echo "   - XRAY  Vless TLS            : 443" | tee -a log-install.txt
+echo "   - XRAY  Vless None TLS       : 80" | tee -a log-install.txt
+echo "   - Trojan GRPC                : 443" | tee -a log-install.txt
+echo "   - Trojan WS                  : 443" | tee -a log-install.txt
+echo "   - Trojan GO                  : 443" | tee -a log-install.txt
+echo "   - Sodosok WS/GRPC            : 443" | tee -a log-install.txt
+echo "   - SLOWDNS                    : 53"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "   >>> Server Information & Other Features"  | tee -a log-install.txt
-echo "   - Timezone                  : Asia/Jakarta (GMT +7)"  | tee -a log-install.txt
-echo "   - Dflate                    : [ON]"  | tee -a log-install.txt
-echo "   - IPtables                  : [ON]"  | tee -a log-install.txt
-echo "   - Auto-Reboot               : [ON]"  | tee -a log-install.txt
-echo "   - IPv6                      : [OFF]"  | tee -a log-install.txt
+echo "   - Timezone                   : Asia/Jakarta (GMT +7)"  | tee -a log-install.txt
+echo "   - Dflate                     : [ON]"  | tee -a log-install.txt
+echo "   - IPtables                   : [ON]"  | tee -a log-install.txt
+echo "   - Auto-Reboot                : [ON]"  | tee -a log-install.txt
+echo "   - IPv6                       : [OFF]"  | tee -a log-install.txt
 echo "   - Autobackup Data" | tee -a log-install.txt
 echo "   - AutoKill Multi Login User" | tee -a log-install.txt
 echo "   - Auto Delete Expired Account" | tee -a log-install.txt
