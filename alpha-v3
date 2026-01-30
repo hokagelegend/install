@@ -1138,6 +1138,9 @@ function downgrade_node(){
         print_error "Gagal download Xray, batal downgrade."
     fi
     
+    # KEMBALI KE HOME SEBELUM HAPUS FOLDER !!!
+    cd /root 
+    
     # Cleanup
     rm -rf /tmp/xray_downgrade
     
@@ -1182,6 +1185,9 @@ clear
     
 }
 instal
+# Pastikan kita ada di root sebelum nulis log
+cd /root
+
 echo ""
 history -c
 rm -rf /root/menu
