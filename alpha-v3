@@ -696,24 +696,23 @@ gotop_latest="$(curl -s https://api.github.com/repos/xxxserxxx/gotop/releases | 
 print_success "Swap 1 G"
 }
 
-function ins_fail2ban(){   # <--- TAMBAHKAN BARIS INI
-# Instal DDOS Flate
-if [ -d '/usr/local/ddos' ]; then
-    echo; echo; echo "Please un-install the previous version first"
-    exit 0
-else
-    mkdir /usr/local/ddos
-fi
+function ins_fail2ban(){   
+    # Instal DDOS Flate
+    if [ -d '/usr/local/ddos' ]; then
+        echo; echo; echo "Please un-install the previous version first"
+        exit 0
+    else
+        mkdir /usr/local/ddos
+    fi
 
-clear
-# banner
-echo "Banner /etc/kyt.txt" >>/etc/ssh/sshd_config
-sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/kyt.txt"@g' /etc/default/dropbear
+    # banner
+    echo "Banner /etc/kyt.txt" >>/etc/ssh/sshd_config
+    sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/kyt.txt"@g' /etc/default/dropbear
 
-# Ganti Banner
-wget -O /etc/kyt.txt https://raw.githubusercontent.com/hokagelegend/alpha-v3/refs/heads/main/files/issue.net
-print_success "Fail2ban"
-}
+    # Ganti Banner
+    wget -O /etc/kyt.txt https://raw.githubusercontent.com/hokagelegend/alpha-v3/refs/heads/main/files/issue.net
+    print_success "Fail2ban"
+} # <--- PASTIKAN ADA KURUNG TUTUP INI
 function ins_epro(){
 clear
 print_install "Menginstall ePro WebSocket Proxy"
